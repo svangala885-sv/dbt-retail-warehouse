@@ -1,0 +1,10 @@
+# Local DuckDB profile so the project runs with no cloud account.
+# For Snowflake, add a target that reads credentials from environment variables, e.g.
+#   account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"  password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+retail_warehouse:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: target/warehouse.duckdb
+      threads: 4
