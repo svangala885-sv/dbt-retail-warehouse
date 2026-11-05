@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: stg_customer_changes
+    description: One row per customer attribute change, from the source change log.
+    columns:
+      - name: customer_id
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+  - name: stg_products
+    columns:
+      - name: product_id
+        tests: [unique, not_null]
+      - name: list_price
+        tests: [positive_value]
+  - name: stg_orders
+    columns:
+      - name: order_id
+        tests: [unique, not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              values: [completed, shipped, cancelled, returned]
+  - name: stg_order_items
+    columns:
+      - name: quantity
+        tests: [positive_value]
+      - name: order_id
+        tests:
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
